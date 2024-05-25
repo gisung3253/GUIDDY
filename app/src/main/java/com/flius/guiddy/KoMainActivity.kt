@@ -57,7 +57,8 @@ class KoMainActivity : AppCompatActivity(), PersonAdapter.OnItemClickListener {
         // ImageButton 변수 선언 및 초기화
         val buttonIcon: ImageButton = findViewById(R.id.baseline_add)
         buttonIcon.setOnClickListener {
-            setContentView(R.layout.activity_main)
+            val intent = Intent(this@KoMainActivity, PostUpActivity::class.java)
+            startActivity(intent)
         }
     }
 

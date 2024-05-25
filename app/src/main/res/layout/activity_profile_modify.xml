@@ -10,11 +10,10 @@
 
     <!-- 프로필 사진 -->
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/imageView"
+        android:src="@drawable/guiddy_main_logo"
         android:layout_width="140dp"
         android:layout_height="180dp"
-        android:src="@drawable/guiddy_main_logo"
-        android:contentDescription="@string/profile_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,19 +31,19 @@
         android:text="Nickname:"
         android:textSize="16sp"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
     <!-- 이름 입력 -->
     <EditText
-        android:id="@+id/profile_name"
+        android:id="@+id/nickname_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edit_text_background"
-        android:inputType="textPersonName"
+        android:inputType="text"
         android:padding="12dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,12 +60,12 @@
         android:text="location:"
         android:textSize="16sp"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/profile_name"
+        app:layout_constraintTop_toBottomOf="@id/nickname_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
     <!-- 국적 입력 -->
     <EditText
-        android:id="@+id/profile_location"
+        android:id="@+id/region_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -91,13 +90,13 @@
         android:text="Gender:"
         android:textSize="16sp"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/profile_location"
+        app:layout_constraintTop_toBottomOf="@id/region_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 성별 입력 -->
     <EditText
-        android:id="@+id/profile_gender"
+        android:id="@+id/sex_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -121,14 +120,14 @@
         android:text="Languages:"
         android:textSize="16sp"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/profile_gender"
+        app:layout_constraintTop_toBottomOf="@id/sex_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 
     <!-- 가능 언어 입력 -->
     <EditText
-        android:id="@+id/profile_language"
+        android:id="@+id/language_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -144,7 +143,7 @@
 
     <!-- 수정 버튼 -->
     <Button
-        android:id="@+id/profile_save_button"
+        android:id="@+id/save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -153,7 +152,7 @@
         android:padding="12dp"
         android:text="@string/save"
         android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/profile_language"
+        app:layout_constraintTop_toBottomOf="@id/language_edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
