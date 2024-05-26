@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         R.id.bt_radioForeign -> {
-                            val intent = Intent(this, KoMainActivity::class.java)
+                            val intent = Intent(this, FoMainActivity::class.java)
                             startActivity(intent)
                             Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                             finish()
