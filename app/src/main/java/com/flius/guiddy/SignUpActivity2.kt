@@ -99,7 +99,7 @@ class SignUpActivity2 : AppCompatActivity() {
     }
 
     private fun saveProfileToDatabase(uid: String, nickname: String, country: String, sex: String, language: String, imageUrl: String) {
-        val profile = Profile(nickname, country, sex ,language, imageUrl)
+        val profile = Profile(nickname, country, sex ,language, imageUrl, uid)
         mDbRef.child("Profile").child(uid).setValue(profile)
             .addOnSuccessListener {
                 Toast.makeText(this, "프로필 저장 성공", Toast.LENGTH_SHORT).show()

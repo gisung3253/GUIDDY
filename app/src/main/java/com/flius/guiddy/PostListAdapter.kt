@@ -34,8 +34,10 @@ class PostListAdapter(private val context: Context, private val postList: ArrayL
         // 아이템 클릭 이벤트
         holder.itemView.setOnClickListener {
             val intent = Intent(context, PostDetailActivity::class.java)
-            intent.putExtra(PostDetailActivity.EXTRA_NAME, profile.nickname)
-            intent.putExtra(PostDetailActivity.EXTRA_DETAILS, intro.free)
+            intent.putExtra("nickname", profile.nickname)
+            intent.putExtra("free", intro.free)
+            intent.putExtra("image", profile.profileImageUrl)
+            intent.putExtra("uid", profile.uid)
             context.startActivity(intent)
         }
     }

@@ -88,7 +88,7 @@ class ProfileModifyActivity : AppCompatActivity() {
                 .addOnSuccessListener { //성공 시
                     fileReference.downloadUrl.addOnSuccessListener { uri ->
                         val imageUrl = uri.toString()
-                        saveProfileToDatabase(uid, nickname, country, sex, language,  imageUrl) //DB에 정보 넘기는 파트
+                        saveProfileToDatabase(uid, nickname, country, sex, language,  imageUrl, mAuth.currentUser?.uid!!) //DB에 정보 넘기는 파트
                         val intent: Intent = Intent(this, KoMainActivity::class.java) // 화면 전환
                         startActivity(intent)
                     }
@@ -100,8 +100,8 @@ class ProfileModifyActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveProfileToDatabase(uid: String, nickname: String, country: String, sex: String, language: String, imageUrl: String) {
-        val profile = Profile(nickname, country, sex ,language, imageUrl)
+    private fun saveProfileToDatabase(uid: String, nickname: String, country: String, sex: String, language: String, imageUrl: String, uId:String) {
+        val profile = Profile(nickname, country, sex ,language, imageUrl, uId)
         mDbRef.child("Profile").child(uid).setValue(profile)
             .addOnSuccessListener {
                 Toast.makeText(this, "프로필 저장 성공", Toast.LENGTH_SHORT).show()

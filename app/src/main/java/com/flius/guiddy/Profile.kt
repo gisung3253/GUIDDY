@@ -5,7 +5,8 @@ data class Profile(
     var country: String,
     var sex: String,
     var language: String,
-    val profileImageUrl: String
+    val profileImageUrl: String,
+    val uid: String
 ){
-    constructor(): this("", "", "","", "")
+    constructor(): this("", "", "","", "","")
 }
