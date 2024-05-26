@@ -20,12 +20,11 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 
 class ChatListActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityChatListBinding
     lateinit var adapter: UserAdapter
-
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDbRef: DatabaseReference
-
     private lateinit var userList: ArrayList<User>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +32,8 @@ class ChatListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mAuth = Firebase.auth
-
         mDbRef = Firebase.database.reference
-
-        //리스트 초기화
         userList = ArrayList()
-
         adapter = UserAdapter(this, userList)
 
         binding.userRecyclerview.layoutManager = LinearLayoutManager(this)
