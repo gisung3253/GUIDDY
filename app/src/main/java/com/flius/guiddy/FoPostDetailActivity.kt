@@ -28,7 +28,7 @@ class FoPostDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_post_detail)
+        setContentView(R.layout.activity_fo_post_detail)
 
         //넘어온 데이터 변수에 담기
         nickname = intent.getStringExtra("nickname").toString()
