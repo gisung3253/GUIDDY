@@ -9,6 +9,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.database
 
 class PayImageActivity : AppCompatActivity() {
     private lateinit var etName: EditText
@@ -18,11 +23,18 @@ class PayImageActivity : AppCompatActivity() {
     private lateinit var etCvv: EditText
     private lateinit var btnPay: Button
 
+    private lateinit var Ouid: String
+    lateinit var mAuth: FirebaseAuth
+    private lateinit var mDbRef: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_pay_image)
 
+        Ouid = intent.getStringExtra("Ouid").toString()
+        mAuth = Firebase.auth
+        mDbRef = Firebase.database.reference
 
         etName = findViewById(R.id.et_name)
         etEmail = findViewById(R.id.et_email)
@@ -48,8 +60,14 @@ class PayImageActivity : AppCompatActivity() {
             return
         }
 
+        addUserToDatabase(Ouid, mAuth.currentUser?.uid!!)
+
         // 결제 처리 로직
         Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, FoMainActivity::class.java))
+    }
+
+    private fun addUserToDatabase(Ouid: String, Cuid:String){
+        mDbRef.child("Uids").setValue(Uids(Ouid, Cuid))
     }
 }

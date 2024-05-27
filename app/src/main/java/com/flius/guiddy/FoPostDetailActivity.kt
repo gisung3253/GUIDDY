@@ -49,6 +49,7 @@ class FoPostDetailActivity : AppCompatActivity() {
 
         btnPay.setOnClickListener {
             val intent: Intent = Intent(this@FoPostDetailActivity, PayImageActivity::class.java)
+            intent.putExtra("Ouid", curruid)
             startActivity(intent)
         }
     }
