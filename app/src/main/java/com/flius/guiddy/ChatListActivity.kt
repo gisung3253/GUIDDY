@@ -1,23 +1,17 @@
 package com.flius.guiddy
 
-import android.content.Intent
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+
+
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import androidx.activity.enableEdgeToEdge
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.flius.guiddy.databinding.ActivityChatListBinding
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.database
+import com.google.firebase.database.*
 
 class ChatListActivity : AppCompatActivity() {
 
@@ -26,6 +20,8 @@ class ChatListActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDbRef: DatabaseReference
     private lateinit var userList: ArrayList<User>
+    private lateinit var uidsList: ArrayList<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatListBinding.inflate(layoutInflater)
@@ -34,35 +30,64 @@ class ChatListActivity : AppCompatActivity() {
         mAuth = Firebase.auth
         mDbRef = Firebase.database.reference
         userList = ArrayList()
+        uidsList = ArrayList()
         adapter = UserAdapter(this, userList)
 
         binding.userRecyclerview.layoutManager = LinearLayoutManager(this)
         binding.userRecyclerview.adapter = adapter
 
-        //사용자 정보 가져오기
-        mDbRef.child("user").addValueEventListener(object: ValueEventListener {
-            // 데이터 변경때 마다 실행
+        // Uids에서 Ouid와 Cuid를 가져오기
+        mDbRef.child("Uids").addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                for(postSnapshot in snapshot.children){
+                uidsList.clear()
+                for (postSnapshot in snapshot.children) {
+                    try {
+                        val uids = postSnapshot.getValue(Uids::class.java)
+                        if (uids != null) {
+                            Log.d("ChatListActivity", "Ouid: ${uids.Ouid}, Cuid: ${uids.Cuid}")
+                            uidsList.add(uids.Ouid)
+                            uidsList.add(uids.Cuid)
+                        } else {
+                            Log.e("ChatListActivity", "Uids is null for snapshot: ${postSnapshot.key}")
+                        }
+                    } catch (e: DatabaseException) {
+                        Log.e("ChatListActivity", "Error converting snapshot to Uids: ${e.message}")
+                    }
+                }
+                // 중복 UID 제거
+                uidsList = ArrayList(uidsList.distinct())
+                Log.d("ChatListActivity", "UIDs List: $uidsList")
+                fetchUsers()
+            }
 
-                    //유저 정보
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("ChatListActivity", "Error fetching Uids: ${error.message}")
+            }
+        })
+    }
+
+    private fun fetchUsers() {
+        // 사용자 정보 가져오기
+        mDbRef.child("user").addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userList.clear()
+                for (postSnapshot in snapshot.children) {
                     val currentUser = postSnapshot.getValue(User::class.java)
-
-                    // 나를 제외한 나머지 정보
-                    // mAuth가 내 정보
-                    if(mAuth.currentUser?.uid != currentUser?.uId){
-                        userList.add(currentUser!!)
+                    // 나를 제외하고 Uids에 있는 사용자들만 추가
+                    if (currentUser != null) {
+                        Log.d("ChatListActivity", "Current User: ${currentUser.uId}")
+                        if (currentUser.uId != mAuth.currentUser?.uid && uidsList.contains(currentUser.uId)) {
+                            userList.add(currentUser)
+                            Log.d("ChatListActivity", "User added: ${currentUser.uId}")
+                        }
                     }
                 }
                 adapter.notifyDataSetChanged()
             }
 
-            // 오류 발생시 실행
             override fun onCancelled(error: DatabaseError) {
-
+                Log.e("ChatListActivity", "Error fetching users: ${error.message}")
             }
-
         })
-    }//onCreate
-
+    }
 }

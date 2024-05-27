@@ -2,6 +2,7 @@ package com.flius.guiddy
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -67,7 +68,19 @@ class PayImageActivity : AppCompatActivity() {
         startActivity(Intent(this, FoMainActivity::class.java))
     }
 
-    private fun addUserToDatabase(Ouid: String, Cuid:String){
-        mDbRef.child("Uids").setValue(Uids(Ouid, Cuid))
+    private fun addUserToDatabase(Ouid: String, Cuid: String) {
+        val uid = mDbRef.child("Uids").push().key
+        if (uid != null) {
+            val uids = Uids(Ouid, Cuid)
+            mDbRef.child("Uids").child(uid).setValue(uids)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("ChatListActivity", "Uids added successfully")
+                    } else {
+                        Log.e("ChatListActivity", "Failed to add Uids: ${task.exception?.message}")
+                    }
+                }
+        }
     }
+
 }
