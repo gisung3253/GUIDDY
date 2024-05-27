@@ -25,6 +25,7 @@ class PostDetailActivity : AppCompatActivity() {
     private lateinit var money: String
     private lateinit var mDbRef: DatabaseReference
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
@@ -42,6 +43,8 @@ class PostDetailActivity : AppCompatActivity() {
 
         fetchProfileData(curruid)
         fetchPayData(curruid)
+
+
     }
 
     private fun fetchProfileData(uid: String) {

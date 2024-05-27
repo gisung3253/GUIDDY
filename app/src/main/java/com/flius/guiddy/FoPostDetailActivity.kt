@@ -25,6 +25,7 @@ class FoPostDetailActivity : AppCompatActivity() {
     private lateinit var country: String
     private lateinit var money: String
     private lateinit var mDbRef: DatabaseReference
+    private lateinit var btnPay: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,13 @@ class FoPostDetailActivity : AppCompatActivity() {
 
         fetchProfileData(curruid)
         fetchPayData(curruid)
+
+        btnPay = findViewById(R.id.bt_pay1)
+
+        btnPay.setOnClickListener {
+            val intent: Intent = Intent(this@FoPostDetailActivity, PayImageActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun fetchProfileData(uid: String) {
